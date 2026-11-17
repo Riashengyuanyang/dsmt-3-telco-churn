@@ -36,7 +36,7 @@ def fetch_prediction_from_production(params: dict) -> requests.Response:
 st.set_page_config(page_title="Telco Churn Predictor", page_icon="📊")
 
 
-st.title("Telco Churn Prediction") #大标题
+st.title("Telco Churn Prediction")  # 大标题
 st.write("Enter customer details and get a churn prediction.")
 
 tenure = st.selectbox("Tenure (mths)", options=list(range(121)))
@@ -44,7 +44,7 @@ tenure = st.selectbox("Tenure (mths)", options=list(range(121)))
 monthly = st.slider(
     "Monthly Charges", min_value=0.0, max_value=1000.0, step=0.5, value=70.0
 )
-#改成sldier网页也会改变
+# 改成sldier网页也会改变
 
 techsupport = int(st.toggle("Tech Support", value=False))
 
@@ -55,13 +55,14 @@ payload = {
 }
 
 try:
-    data = fetch_prediction_from_production(payload)
+    with st.spinner("Asking the model... (first call may take a few seconds)"):
+        data = fetch_prediction_from_production(payload)
     prediction = data.text
 
     st.subheader("Result")
     st.write(f"Model prediction: **{prediction}**")
 
-    st.json(data)
-
 except requests.RequestException as e:
     st.error(f"Error calling API: {e}")
+except RuntimeError as e:
+    st.error(str(e))
