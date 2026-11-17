@@ -64,18 +64,16 @@ steps:
             - The variable name (on the left) is internal to the function,
             while the string name (on the right) is what the user will need to provide.
                 ```python
-                tenure = req.params.get('tenure')
-                monthly = req.params.get('monthly')
-                techsupport = req.params.get('techsupport')
+                tenure = req.params.get("tenure")
+                monthly = req.params.get("monthly")
+                techsupport = req.params.get("techsupport")
                 ```
         - Remove the entire `if not name:` block. We aren't supporting JSON input here.
         - Call the `make_prediction` function, passing tenure, monthly and techsupport
         as keyword arguments following the column names used by the model:
             ```python
             prediction = make_prediction(
-                tenure=tenure,
-                MonthlyCharges=monthly,
-                TechSupport_yes=techsupport
+                tenure=tenure, MonthlyCharges=monthly, TechSupport_yes=techsupport
             )
             ```
         - Change `if name:` to `if tenure and monthly and techsupport:`
